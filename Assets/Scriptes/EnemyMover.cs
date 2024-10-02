@@ -5,11 +5,11 @@ public class EnemyMover : MonoBehaviour
 {
     private SpriteRenderer _renderer;
     private bool _isSwiched = true;
-    private float _speed = 0.03f;
+    private float _speed = 2f;
 
     private void Awake()
     {
-        _renderer = GetComponent<SpriteRenderer>();   
+        _renderer = GetComponent<SpriteRenderer>();
     }
 
     private void ActivateCoroutine(Vector3 firstDirection, Vector3 secondDirection)
@@ -28,8 +28,7 @@ public class EnemyMover : MonoBehaviour
 
                 _renderer.flipX = false;
             }
-
-            if (_isSwiched == false)
+            else
             {
                 Move(secondDirection);
                 ChangeDirection(firstDirection, secondDirection);
@@ -37,9 +36,7 @@ public class EnemyMover : MonoBehaviour
                 _renderer.flipX = true;
             }
 
-            var wait = new WaitForSeconds(0);
-
-            yield return wait;
+            yield return null;
         }
     }
 
@@ -58,7 +55,7 @@ public class EnemyMover : MonoBehaviour
 
     private void Move(Vector3 direction)
     {
-        transform.position = Vector3.MoveTowards(transform.position, direction, _speed);
+        transform.position = Vector3.MoveTowards(transform.position, direction, _speed * Time.deltaTime);
     }
 
     public void MoveToPoint(Vector3 firstDirection, Vector3 secondDirection)

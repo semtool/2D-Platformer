@@ -18,18 +18,17 @@ public class PlayerMover : MonoBehaviour
 
     public int Moving { get; private set; }
 
-    public bool IsJump { get; private set; }
-
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _renderer = GetComponent<SpriteRenderer>();
+        AppointParameters();
+
     }
 
     private void Start()
     {
-        AppointParameters();
         ExtractParameters();
     }
 

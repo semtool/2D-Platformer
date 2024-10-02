@@ -6,7 +6,6 @@ public class Player : MonoBehaviour
     private ContactsDetector _contactsDetector;
     private InputReader _inputReader;
 
-
     private void Awake()
     {
         _playerMover = GetComponent<PlayerMover>();

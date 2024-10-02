@@ -14,14 +14,14 @@ public class EnemyPointsSpawner : MonoBehaviour
     {
         _startCoordinates = new List<Vector2>()
         {
-            SetCoordinates(9.6f, 0f),
-            SetCoordinates(-3.21f, 5.4f),
+            SetCoordinates(-5f,-3f),
+            SetCoordinates( -3.21f, 5.4f),
         };
     }
 
     private Vector2 SetCoordinates(float coordinateX, float coordinateY)
     {
-        return new Vector2 (coordinateX, coordinateY);
+        return new Vector2(coordinateX, coordinateY);
     }
 
     private float GetRandomCoordinate()

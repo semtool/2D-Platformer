@@ -612,9 +612,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1266847230}
   - component: {fileID: 1266847229}
-  - component: {fileID: 1266847228}
   - component: {fileID: 1266847233}
   - component: {fileID: 1266847234}
+  - component: {fileID: 1266847235}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: Untagged
@@ -622,18 +622,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1266847228
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1266847227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b85b7fa7e91af0a4b83f3c100a7d6ca2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1266847229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -647,7 +635,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _coinPrefab: {fileID: 1966431760028140531, guid: cdc883f24bf4f42458f3fb251b778102, type: 3}
-  _enemyPrefab: {fileID: 4890531479386255868, guid: 8dd5286654614724ab5195a1904e3dc7, type: 3}
+  _enemyPrefab: {fileID: 1473357266749252917, guid: 4ef3766ed4febce4eb388b1440d7afa8, type: 3}
 --- !u!4 &1266847230
 Transform:
   m_ObjectHideFlags: 0
@@ -687,8 +675,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c85700183b70cc744a6c3bdf091426e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minCoordinate: -3
-  _maxCoordinate: 4
+  _minCoordinate: -1
+  _maxCoordinate: 8
+--- !u!114 &1266847235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266847227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b85b7fa7e91af0a4b83f3c100a7d6ca2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1622690389
 GameObject:
   m_ObjectHideFlags: 0
