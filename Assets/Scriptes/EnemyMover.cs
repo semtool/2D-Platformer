@@ -1,10 +1,12 @@
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
+
 public class EnemyMover : MonoBehaviour
 {
     private SpriteRenderer _renderer;
-    private bool _isSwiched = true;
+    private bool _isChanged = true;
     private float _speed = 2f;
 
     private void Awake()
@@ -12,26 +14,21 @@ public class EnemyMover : MonoBehaviour
         _renderer = GetComponent<SpriteRenderer>();
     }
 
-    private void ActivateCoroutine(Vector3 firstDirection, Vector3 secondDirection)
-    {
-        StartCoroutine(DirectOfMovement(firstDirection, secondDirection));
-    }
-
-    private IEnumerator DirectOfMovement(Vector3 firstDirection, Vector3 secondDirection)
+    private IEnumerator ToDirectOfMovement(Vector3 firstDirection, Vector3 secondDirection)
     {
         while (true)
         {
-            if (_isSwiched)
+            if (_isChanged)
             {
                 Move(firstDirection);
-                ChangeDirection(firstDirection, secondDirection);
+                ChangeConditionForDirectionOfMovment(firstDirection, secondDirection);
 
                 _renderer.flipX = false;
             }
             else
             {
                 Move(secondDirection);
-                ChangeDirection(firstDirection, secondDirection);
+                ChangeConditionForDirectionOfMovment(firstDirection, secondDirection);
 
                 _renderer.flipX = true;
             }
@@ -40,16 +37,20 @@ public class EnemyMover : MonoBehaviour
         }
     }
 
-    private void ChangeDirection(Vector3 firstDirection, Vector3 secondDirection)
+    private void ActivateCoroutine(Vector3 firstDirection, Vector3 secondDirection)
+    {
+        StartCoroutine(ToDirectOfMovement(firstDirection, secondDirection));
+    }
+    private void ChangeConditionForDirectionOfMovment(Vector3 firstDirection, Vector3 secondDirection)
     {
         if (transform.position == firstDirection)
         {
-            _isSwiched = false;
+            _isChanged = false;
         }
 
         if (transform.position == secondDirection)
         {
-            _isSwiched = true;
+            _isChanged = true;
         }
     }
 

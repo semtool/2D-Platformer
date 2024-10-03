@@ -2,6 +2,10 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(SpriteRenderer))]
+
 public class PlayerMover : MonoBehaviour
 {
     [SerializeField] private float _speedX;
@@ -13,6 +17,8 @@ public class PlayerMover : MonoBehaviour
     private float _timeOfDelay = 0.3f;
     private float _positiveLimit = 0.1f;
     private float _negativeLimit = -0.1f;
+    private bool _hasUpType = true;
+    private bool _hasDownType = false;
 
     public int Jumping { get; private set; }
 
@@ -23,8 +29,8 @@ public class PlayerMover : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _renderer = GetComponent<SpriteRenderer>();
-        AppointParameters();
 
+        AppointParameters();
     }
 
     private void Start()
@@ -34,13 +40,13 @@ public class PlayerMover : MonoBehaviour
 
     private IEnumerator ChangeFaseOfJump()
     {
-        ChangePhaseOfJump(true);
+        ChangePhaseOfJump(_hasUpType);
 
         var wait = new WaitForSeconds(_timeOfDelay);
 
         yield return wait;
 
-        ChangePhaseOfJump(false);
+        ChangePhaseOfJump(_hasDownType);
     }
 
     private void AppointParameters()
@@ -55,9 +61,9 @@ public class PlayerMover : MonoBehaviour
         _animator.GetBool(Moving);
     }
 
-    private void ChangePhaseOfJump(bool isSwiched)
+    private void ChangePhaseOfJump(bool hasCurrentPhaseType)
     {
-        _animator.SetBool(Jumping, isSwiched);
+        _animator.SetBool(Jumping, hasCurrentPhaseType);
     }
 
     public void Move(float direction)

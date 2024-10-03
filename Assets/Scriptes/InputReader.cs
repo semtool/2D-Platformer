@@ -4,9 +4,11 @@ public class InputReader : MonoBehaviour
 {
     private const string HorizontalAxis = "Horizontal";
     private const KeyCode Jump = KeyCode.Space;
+
     private bool _isJump;
 
     public float Direction { get; private set; }
+
 
     private void Update()
     {

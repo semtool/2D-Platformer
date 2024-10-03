@@ -1,5 +1,9 @@
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerMover))] 
+[RequireComponent(typeof(InputReader))]
+[RequireComponent(typeof(ContactsDetector ))]
+
 public class Player : MonoBehaviour
 {
     private PlayerMover _playerMover;
@@ -13,16 +17,13 @@ public class Player : MonoBehaviour
         _contactsDetector = GetComponent<ContactsDetector>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (_contactsDetector.IsGround)
         {
-           _playerMover.Move(_inputReader.Direction);
+            _playerMover.Move(_inputReader.Direction);
         }
-    }
 
-    private void FixedUpdate()
-    {         
         if (_inputReader.GetIsJump() && _contactsDetector.IsGround)
         {
             _playerMover.Jump();
