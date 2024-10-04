@@ -6,6 +6,6 @@ public class Enemy : MonoBehaviour
 
     public void Move(Vector3 firstDirection, Vector3 secondDirection)
     {
-        _enemyMover.MoveToPoint(firstDirection, secondDirection);
+        _enemyMover.MoveToTargerPoint(firstDirection, secondDirection);
     }
 }

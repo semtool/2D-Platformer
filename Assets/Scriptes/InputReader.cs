@@ -9,7 +9,6 @@ public class InputReader : MonoBehaviour
 
     public float Direction { get; private set; }
 
-
     private void Update()
     {
         Direction = Input.GetAxis(HorizontalAxis);
@@ -20,15 +19,15 @@ public class InputReader : MonoBehaviour
         }
     }
 
+    public bool GetIsJump()
+    {
+        return GetBoolAsTrigger(ref _isJump);
+    }
+
     private bool GetBoolAsTrigger(ref bool value)
     {
         bool localValue = value;
         value = false;
         return localValue;
-    }
-
-    public bool GetIsJump()
-    {
-        return GetBoolAsTrigger(ref _isJump);
     }
 }

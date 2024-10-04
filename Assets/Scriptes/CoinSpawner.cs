@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(CoinPointsSpawner))]
@@ -8,13 +7,13 @@ public class CoinSpawner : MonoBehaviour
 {
     [SerializeField] private Coin _coinPrefab;
 
-    private List<Vector2> _coinSpawnPoints;
+    private CoinPointsSpawner _coinSpawner;
     private WaitForSeconds _intervalToNewCoin;
     private float _timeForCoinInterval = 0.3f;
 
     private void Awake()
     {
-        _coinSpawnPoints = GetComponent<CoinPointsSpawner>().CoordinatesOfPoins;
+        _coinSpawner = GetComponent<CoinPointsSpawner>();
         _intervalToNewCoin = new WaitForSeconds(_timeForCoinInterval);
     }
 
@@ -25,7 +24,7 @@ public class CoinSpawner : MonoBehaviour
 
     private IEnumerator CreateSeveralCoins()
     {
-        foreach (var point in _coinSpawnPoints)
+        foreach (var point in _coinSpawner.coordinatesOfPoins)
         {
             yield return _intervalToNewCoin;
 

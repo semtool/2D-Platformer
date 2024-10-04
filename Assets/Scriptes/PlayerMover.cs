@@ -19,6 +19,7 @@ public class PlayerMover : MonoBehaviour
     private float _negativeLimit = -0.1f;
     private bool _hasUpType = true;
     private bool _hasDownType = false;
+    private WaitForSeconds _intervalToNewFase;
 
     public int Jumping { get; private set; }
 
@@ -29,6 +30,7 @@ public class PlayerMover : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _renderer = GetComponent<SpriteRenderer>();
+        _intervalToNewFase = new WaitForSeconds(_timeOfDelay);
 
         AppointParameters();
     }
@@ -38,15 +40,33 @@ public class PlayerMover : MonoBehaviour
         ExtractParameters();
     }
 
+    public void Move(float direction)
+    {
+        TurnFrontToRight(direction);
+
+        TurnFrontToLeft(direction);
+
+        _animator.SetFloat(Moving, Math.Abs(direction));
+
+        _rigidbody.velocity = new Vector2(_speedX * direction * Time.fixedDeltaTime, _rigidbody.velocity.y);
+    }
+
+    public void Jump()
+    {
+        _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, 0);
+
+        _rigidbody.AddForce(new Vector2(0, _jumpForce));
+
+        StartCoroutine(ChangeFaseOfJump());
+    }
+
     private IEnumerator ChangeFaseOfJump()
     {
-        ChangePhaseOfJump(_hasUpType);
+        ChangeJumpPhaseToUp();
 
-        var wait = new WaitForSeconds(_timeOfDelay);
+        yield return _intervalToNewFase;
 
-        yield return wait;
-
-        ChangePhaseOfJump(_hasDownType);
+        ChangeJumpPhaseToDown();
     }
 
     private void AppointParameters()
@@ -61,34 +81,29 @@ public class PlayerMover : MonoBehaviour
         _animator.GetBool(Moving);
     }
 
-    private void ChangePhaseOfJump(bool hasCurrentPhaseType)
+    private void ChangeJumpPhaseToUp()
     {
-        _animator.SetBool(Jumping, hasCurrentPhaseType);
+        _animator.SetBool(Jumping, _hasUpType);
     }
 
-    public void Move(float direction)
+    private void ChangeJumpPhaseToDown()
+    {
+        _animator.SetBool(Jumping, _hasDownType);
+    }
+
+    private void TurnFrontToRight(float direction)
     {
         if (direction > _positiveLimit)
         {
             _renderer.flipX = false;
         }
+    }
 
+    private void TurnFrontToLeft(float direction)
+    {
         if (direction < _negativeLimit)
         {
             _renderer.flipX = true;
         }
-
-        _animator.SetFloat(Moving, Math.Abs(direction));
-
-        _rigidbody.velocity = new Vector2(_speedX * direction * Time.fixedDeltaTime, _rigidbody.velocity.y);
-    }
-
-    public void Jump()
-    {
-        _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, 0);
-
-        _rigidbody.AddForce(new Vector2(0, _jumpForce));
-
-        StartCoroutine(ChangeFaseOfJump());
     }
 }

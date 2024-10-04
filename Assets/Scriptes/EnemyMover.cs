@@ -14,6 +14,11 @@ public class EnemyMover : MonoBehaviour
         _renderer = GetComponent<SpriteRenderer>();
     }
 
+    public void MoveToTargerPoint(Vector3 firstDirection, Vector3 secondDirection)
+    {
+        StartCoroutine(ToDirectOfMovement(firstDirection, secondDirection));
+    }
+
     private IEnumerator ToDirectOfMovement(Vector3 firstDirection, Vector3 secondDirection)
     {
         while (true)
@@ -21,46 +26,37 @@ public class EnemyMover : MonoBehaviour
             if (_isChanged)
             {
                 Move(firstDirection);
-                ChangeConditionForDirectionOfMovment(firstDirection, secondDirection);
 
-                _renderer.flipX = false;
+                ChangeConditionForDirectionOfMovement(firstDirection, secondDirection);
             }
             else
             {
                 Move(secondDirection);
-                ChangeConditionForDirectionOfMovment(firstDirection, secondDirection);
 
-                _renderer.flipX = true;
+                ChangeConditionForDirectionOfMovement(firstDirection, secondDirection);
             }
 
             yield return null;
         }
     }
 
-    private void ActivateCoroutine(Vector3 firstDirection, Vector3 secondDirection)
-    {
-        StartCoroutine(ToDirectOfMovement(firstDirection, secondDirection));
-    }
-    private void ChangeConditionForDirectionOfMovment(Vector3 firstDirection, Vector3 secondDirection)
+    private void ChangeConditionForDirectionOfMovement(Vector3 firstDirection, Vector3 secondDirection)
     {
         if (transform.position == firstDirection)
         {
             _isChanged = false;
+            _renderer.flipX = false;
         }
 
         if (transform.position == secondDirection)
         {
             _isChanged = true;
+            _renderer.flipX = true;
         }
     }
 
     private void Move(Vector3 direction)
     {
         transform.position = Vector3.MoveTowards(transform.position, direction, _speed * Time.deltaTime);
-    }
-
-    public void MoveToPoint(Vector3 firstDirection, Vector3 secondDirection)
-    {
-        ActivateCoroutine(firstDirection, secondDirection);
     }
 }
