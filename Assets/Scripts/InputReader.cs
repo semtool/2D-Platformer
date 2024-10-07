@@ -5,7 +5,7 @@ public class InputReader : MonoBehaviour
     private const string HorizontalAxis = "Horizontal";
     private const KeyCode Jump = KeyCode.Space;
 
-    private bool _isJump;
+    public bool IsJumped { get; private set; }
 
     public float Direction { get; private set; }
 
@@ -15,19 +15,12 @@ public class InputReader : MonoBehaviour
 
         if (Input.GetKeyDown(Jump))
         {
-            _isJump = true;
+            IsJumped = true;
         }
     }
 
-    public bool GetIsJump()
+    public void StopToJump()
     {
-        return GetBoolAsTrigger(ref _isJump);
-    }
-
-    private bool GetBoolAsTrigger(ref bool value)
-    {
-        bool localValue = value;
-        value = false;
-        return localValue;
+        IsJumped = false;
     }
 }

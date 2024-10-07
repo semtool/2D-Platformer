@@ -2,24 +2,19 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(SpriteRenderer))]
 
-public class PlayerMover : MonoBehaviour
+public class PlayerAnimator : MonoBehaviour
 {
-    [SerializeField] private float _speedX;
-    [SerializeField] private float _jumpForce;
-
     private Animator _animator;
     private SpriteRenderer _renderer;
-    private Rigidbody2D _rigidbody;
-    private float _timeOfDelay = 0.3f;
-    private float _positiveLimit = 0.1f;
-    private float _negativeLimit = -0.1f;
     private bool _hasUpType = true;
     private bool _hasDownType = false;
+    private float _positiveLimit = 0.1f;
+    private float _negativeLimit = -0.1f;
     private WaitForSeconds _intervalToNewFase;
+    private float _timeOfDelay = 0.3f;
 
     public int Jumping { get; private set; }
 
@@ -27,9 +22,8 @@ public class PlayerMover : MonoBehaviour
 
     private void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody2D>();
-        _animator = GetComponent<Animator>();
         _renderer = GetComponent<SpriteRenderer>();
+        _animator = GetComponent<Animator>();
         _intervalToNewFase = new WaitForSeconds(_timeOfDelay);
 
         AppointParameters();
@@ -40,24 +34,30 @@ public class PlayerMover : MonoBehaviour
         ExtractParameters();
     }
 
-    public void Move(float direction)
+    public void SetMovingAnimation(float direction)
     {
-        TurnFrontToRight(direction);
-
-        TurnFrontToLeft(direction);
-
         _animator.SetFloat(Moving, Math.Abs(direction));
-
-        _rigidbody.velocity = new Vector2(_speedX * direction * Time.fixedDeltaTime, _rigidbody.velocity.y);
     }
 
-    public void Jump()
+    public void SetJumpingAnimation()
     {
-        _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, 0);
-
-        _rigidbody.AddForce(new Vector2(0, _jumpForce));
-
         StartCoroutine(ChangeFaseOfJump());
+    }
+
+    public void TurnFrontToRight(float direction)
+    {
+        if (direction > _positiveLimit)
+        {
+            _renderer.flipX = false;
+        }
+    }
+
+    public void TurnFrontToLeft(float direction)
+    {
+        if (direction < _negativeLimit)
+        {
+            _renderer.flipX = true;
+        }
     }
 
     private IEnumerator ChangeFaseOfJump()
@@ -89,21 +89,5 @@ public class PlayerMover : MonoBehaviour
     private void ChangeJumpPhaseToDown()
     {
         _animator.SetBool(Jumping, _hasDownType);
-    }
-
-    private void TurnFrontToRight(float direction)
-    {
-        if (direction > _positiveLimit)
-        {
-            _renderer.flipX = false;
-        }
-    }
-
-    private void TurnFrontToLeft(float direction)
-    {
-        if (direction < _negativeLimit)
-        {
-            _renderer.flipX = true;
-        }
     }
 }

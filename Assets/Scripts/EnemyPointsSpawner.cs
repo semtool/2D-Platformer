@@ -5,8 +5,8 @@ public class EnemyPointsSpawner : MonoBehaviour
 {
     [SerializeField] private float _minCoordinate;
     [SerializeField] private float _maxCoordinate;
-
-    public IReadOnlyList<Vector2> startCoordinatesOfEnemies;
+ 
+    public IReadOnlyList<Vector2> startCoordinatesOfEnemies { get; private set; }
 
     private void Awake()
     {

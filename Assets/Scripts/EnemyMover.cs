@@ -8,6 +8,7 @@ public class EnemyMover : MonoBehaviour
     private SpriteRenderer _renderer;
     private bool _isChanged = true;
     private float _speed = 2f;
+    private bool _isFlying = true;
 
     private void Awake()
     {
@@ -21,19 +22,23 @@ public class EnemyMover : MonoBehaviour
 
     private IEnumerator ToDirectOfMovement(Vector3 firstDirection, Vector3 secondDirection)
     {
-        while (true)
+        while (_isFlying)
         {
             if (_isChanged)
             {
                 Move(firstDirection);
 
                 ChangeConditionForDirectionOfMovement(firstDirection, secondDirection);
+
+                _renderer.flipX = false;
             }
             else
             {
                 Move(secondDirection);
 
                 ChangeConditionForDirectionOfMovement(firstDirection, secondDirection);
+
+                _renderer.flipX = true;
             }
 
             yield return null;
@@ -45,13 +50,11 @@ public class EnemyMover : MonoBehaviour
         if (transform.position == firstDirection)
         {
             _isChanged = false;
-            _renderer.flipX = false;
         }
 
         if (transform.position == secondDirection)
         {
             _isChanged = true;
-            _renderer.flipX = true;
         }
     }
 
