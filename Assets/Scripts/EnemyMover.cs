@@ -1,65 +1,46 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
 
 public class EnemyMover : MonoBehaviour
 {
-    private SpriteRenderer _renderer;
-    private bool _isChanged = true;
     private float _speed = 2f;
-    private bool _isFlying = true;
+    private bool _isWork = true;
 
-    private void Awake()
+    public void MoveToTargetPoint(IReadOnlyList<Vector2> vectors)
     {
-        _renderer = GetComponent<SpriteRenderer>();
+        StartCoroutine(SetRout(vectors));
     }
 
-    public void MoveToTargerPoint(Vector3 firstDirection, Vector3 secondDirection)
+    private IEnumerator SetRout(IReadOnlyList<Vector2> pointsOfRout)
     {
-        StartCoroutine(ToDirectOfMovement(firstDirection, secondDirection));
-    }
+        Vector2 startPosition = transform.position;
 
-    private IEnumerator ToDirectOfMovement(Vector3 firstDirection, Vector3 secondDirection)
-    {
-        while (_isFlying)
+        while (_isWork)
         {
-            if (_isChanged)
+            for (int i = 0; i < pointsOfRout.Count; i++)
             {
-                Move(firstDirection);
+                while (transform.position.x != pointsOfRout[i].x && transform.position.y != pointsOfRout[i].y)
+                {
+                    Move(pointsOfRout[i]);
 
-                ChangeConditionForDirectionOfMovement(firstDirection, secondDirection);
-
-                _renderer.flipX = false;
-            }
-            else
-            {
-                Move(secondDirection);
-
-                ChangeConditionForDirectionOfMovement(firstDirection, secondDirection);
-
-                _renderer.flipX = true;
+                    yield return null;
+                }
             }
 
-            yield return null;
+            while (transform.position.x != startPosition.x && transform.position.y != startPosition.y)
+            {
+                Move(startPosition);
+
+                yield return null;
+            }
         }
     }
 
-    private void ChangeConditionForDirectionOfMovement(Vector3 firstDirection, Vector3 secondDirection)
+    private void Move(Vector2 point)
     {
-        if (transform.position == firstDirection)
-        {
-            _isChanged = false;
-        }
-
-        if (transform.position == secondDirection)
-        {
-            _isChanged = true;
-        }
-    }
-
-    private void Move(Vector3 direction)
-    {
-        transform.position = Vector3.MoveTowards(transform.position, direction, _speed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, point, _speed * Time.deltaTime);
     }
 }

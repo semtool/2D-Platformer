@@ -3,32 +3,29 @@ using UnityEngine;
 
 public class EnemyPointsSpawner : MonoBehaviour
 {
-    [SerializeField] private float _minCoordinate;
-    [SerializeField] private float _maxCoordinate;
- 
-    public IReadOnlyList<Vector2> startCoordinatesOfEnemies { get; private set; }
+    //[SerializeField] private float _minCoordinate;
+    //[SerializeField] private float _maxCoordinate;
 
-    private void Awake()
-    {
-        startCoordinatesOfEnemies = new List<Vector2>()
-        {
-            SetCoordinates(-5f,-3f),
-            SetCoordinates( -3.21f, 5.4f),
-        };
-    }
+    //public IReadOnlyList<Vector2> StartCoordinatesOfEnemies { get; private set; }
 
-    public Vector2 SetFinishCoordinates()
-    {
-        return new Vector2(GetRandomCoordinate(), GetRandomCoordinate());
-    }
+    //private void Awake()
+    //{
+    //    StartCoordinatesOfEnemies = new List<Vector2>()
+    //    {
+    //        new Vector2(-5f,-3f),
+    //        new Vector2( -3.21f, 5.4f),
+    //    };
+    //}
+    //[SerializeField] private Vector2 _position;
 
-    private Vector2 SetCoordinates(float coordinateX, float coordinateY)
-    {
-        return new Vector2(coordinateX, coordinateY);
-    }
+    //public Vector2 SetFinishCoordinates()
+    //{
+    //    //return new Vector2(GetRandomCoordinate(), GetRandomCoordinate());
+    //    return _position;
+    //}
 
-    private float GetRandomCoordinate()
-    {
-        return Random.Range(_minCoordinate, _maxCoordinate);
-    }
+    //private float GetRandomCoordinate()
+    //{
+    //    return Random.Range(_minCoordinate, _maxCoordinate);
+    //}
 }

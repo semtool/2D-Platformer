@@ -4,6 +4,8 @@ public class ContactsDetector : MonoBehaviour
 {
     public bool IsGrounded { get; private set; }
 
+    public bool IsCetched { get; private set; }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.TryGetComponent(out Surface surface))
@@ -13,7 +15,7 @@ public class ContactsDetector : MonoBehaviour
 
         if (collision.gameObject.TryGetComponent(out Coin coin))
         {
-            Destroy(collision.gameObject);
+            coin.ChangeStatus();
         }
 
         if (collision.gameObject.TryGetComponent(out Enemy enemy))

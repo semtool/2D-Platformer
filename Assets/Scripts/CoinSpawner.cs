@@ -6,7 +6,7 @@ using UnityEngine;
 public class CoinSpawner : MonoBehaviour
 {
     [SerializeField] private Coin _coinPrefab;
-    [SerializeField] private List<Transform> _coinsPoints;
+    [SerializeField] private List<CoinPointsSpawner> _coinsPoints;
 
     private void Start()
     {
@@ -15,7 +15,6 @@ public class CoinSpawner : MonoBehaviour
 
     private void CreateSeveralCoins()
     {
-
         foreach (var point in _coinsPoints)
         {
             if (point.TryGetComponent(out CoinPointsSpawner pointsSpawner))

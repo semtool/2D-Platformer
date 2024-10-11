@@ -1,11 +1,12 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private EnemyMover _enemyMover;
 
-    public void Move(Vector3 firstDirection, Vector3 secondDirection)
+    public void MoveToNextPoint(IReadOnlyList<Vector2> nextPoint)
     {
-        _enemyMover.MoveToTargerPoint(firstDirection, secondDirection);
+        _enemyMover.MoveToTargetPoint(nextPoint);
     }
 }
