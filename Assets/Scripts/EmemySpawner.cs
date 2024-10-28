@@ -1,35 +1,40 @@
 using UnityEngine;
 
-[RequireComponent(typeof(EnemyPointsSpawner))]
-
 public class EmemySpawner : MonoBehaviour
 {
     [SerializeField] private Enemy _enemyPrefab;
+    [SerializeField] private Transform _spawnPoints;
 
-    private EnemyPointsSpawner _enemyPointSpawner;
-    private Vector3 _firstPosition;
-    private Vector3 _secondPosition;
+    private Transform[] _allPointsTransform;
+    private Vector2 _startPosition;
 
     private void Awake()
     {
-        _enemyPointSpawner = GetComponent<EnemyPointsSpawner>();
+        _allPointsTransform = new Transform[_spawnPoints.childCount];
     }
 
     private void Start()
     {
-      CreateSeveralEnemies();
+        CreateSeveralEnemies();
     }
 
     private void CreateSeveralEnemies()
     {
-        foreach (var point in _enemyPointSpawner.startCoordinatesOfEnemies)
+        for (int i = 0; i < _allPointsTransform.Length; i++)
         {
-            _firstPosition = point;
-            _secondPosition = _enemyPointSpawner.SetFinishCoordinates();
+            _allPointsTransform[i] = _spawnPoints.GetChild(i);
 
-            Enemy enemy = Instantiate(_enemyPrefab, _firstPosition, Quaternion.identity);
+            _startPosition = _allPointsTransform[i].position;
 
-            enemy.Move(_secondPosition, _firstPosition);
+            Enemy enemy = Instantiate(_enemyPrefab, _startPosition, Quaternion.identity);
+
+            if (_allPointsTransform[i].TryGetComponent(out EnemyNavigator navigator))
+            {
+                if (navigator.Router.Count > 0)
+                {
+                    enemy.MoveToPoint(navigator.Router);
+                }
+            }
         }
     }
 }
