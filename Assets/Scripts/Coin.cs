@@ -1,12 +1,13 @@
+using TMPro;
 using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
     public bool IsTouched { get; private set; }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        if (IsTouched)
+        if (IsTouched == true)
         {
             Destroy(gameObject);
         }
@@ -14,6 +15,6 @@ public class Coin : MonoBehaviour
 
     public void ChangeStatus()
     {
-        IsTouched = true;
+        IsTouched = true;         
     }
 }

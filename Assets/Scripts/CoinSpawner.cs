@@ -1,16 +1,13 @@
+using System.Collections.Generic;
 using UnityEngine;
+
+[RequireComponent(typeof(CoinPointsSpawner))]
 
 public class CoinSpawner : MonoBehaviour
 {
     [SerializeField] private Coin _coinPrefab;
-    [SerializeField] private Transform _spawnPoints;
+    [SerializeField] private List<CoinPointsSpawner> _coinsPoints;
 
-    private Transform[] _allPointsTransform;
-
-    private void Awake()
-    {
-        _allPointsTransform = new Transform[_spawnPoints.childCount];
-    }
     private void Start()
     {
         CreateSeveralCoins();
@@ -18,11 +15,12 @@ public class CoinSpawner : MonoBehaviour
 
     private void CreateSeveralCoins()
     {
-        for (int i = 0; i < _allPointsTransform.Length; i++)
+        foreach (var point in _coinsPoints)
         {
-            _allPointsTransform[i] = _spawnPoints.GetChild(i);
-
-            Instantiate(_coinPrefab, _allPointsTransform[i].position, Quaternion.identity);
+            if (point.TryGetComponent(out CoinPointsSpawner pointsSpawner))
+            {
+                Instantiate(_coinPrefab, point.transform.position, Quaternion.identity);
+            }
         }
     }
 }

@@ -2,51 +2,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
+
 public class EnemyMover : MonoBehaviour
 {
-    [SerializeField] EnemyVision _enemyVision;
-    [SerializeField] float _speed;
-
+    private float _speed = 2f;
     private bool _isWork = true;
 
-    private void Awake()
+    public void MoveToTargetPoint(IReadOnlyList<Vector2> vectors)
     {
-        _enemyVision = GetComponent<EnemyVision>();
+        StartCoroutine(SetRout(vectors));
     }
 
-    private void Update()
+    private IEnumerator SetRout(IReadOnlyList<Vector2> pointsOfRout)
     {
-        foreach (var collider in _enemyVision.ToDetect())
-        {
-            if (collider.TryGetComponent(out Player player))
-            {
-                Move(player.transform.position);
-            }
-        }
-    }
+        Vector2 startPosition = transform.position;
 
-    public void MoveToNextPoint(IReadOnlyList<Vector2> pointsOfDirection)
-    {
-        StartCoroutine(ToNavigate(pointsOfDirection));
-    }
-
-    private IEnumerator ToNavigate(IReadOnlyList<Vector2> pointsOfDirection)
-    {
         while (_isWork)
         {
-            for (int i = 0; i < pointsOfDirection.Count; i++)
+            for (int i = 0; i < pointsOfRout.Count; i++)
             {
-                while (transform.position.x != pointsOfDirection[i].x && transform.position.y != pointsOfDirection[i].y)
+                while (transform.position.x != pointsOfRout[i].x && transform.position.y != pointsOfRout[i].y)
                 {
-                    Move(pointsOfDirection[i]);
+                    Move(pointsOfRout[i]);
 
                     yield return null;
                 }
             }
+
+            while (transform.position.x != startPosition.x && transform.position.y != startPosition.y)
+            {
+                Move(startPosition);
+
+                yield return null;
+            }
         }
     }
 
-    private void Move(Vector3 point)
+    private void Move(Vector2 point)
     {
         transform.position = Vector2.MoveTowards(transform.position, point, _speed * Time.deltaTime);
     }
